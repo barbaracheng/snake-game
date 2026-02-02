@@ -10,6 +10,19 @@
     <div class="game-container">
         <div class="header">
             <h1>🐍 贪吃蛇</h1>
+            <div class="game-controls-top">
+                <button id="sound-btn" class="icon-btn" title="音效开关">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                        <path id="sound-wave" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                </button>
+                <select id="difficulty" class="difficulty-select" title="难度选择">
+                    <option value="easy">简单</option>
+                    <option value="medium" selected>中等</option>
+                    <option value="hard">困难</option>
+                </select>
+            </div>
             <div class="score-board">
                 <div class="score">
                     <span class="label">分数:</span>
@@ -24,6 +37,12 @@
         
         <div class="game-wrapper">
             <canvas id="gameCanvas"></canvas>
+            <button id="pause-btn" class="pause-btn" title="暂停/继续">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect id="pause-icon-1" x="6" y="4" width="4" height="16"></rect>
+                    <rect id="pause-icon-2" x="14" y="4" width="4" height="16"></rect>
+                </svg>
+            </button>
             <div id="game-overlay" class="overlay">
                 <div class="overlay-content">
                     <h2 id="overlay-title">🎮 开始游戏</h2>
