@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>贪吃蛇 - Snake Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>🐍 贪吃蛇</h1>
+            <div class="score-board">
+                <div class="score">
+                    <span class="label">分数:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="high-score">
+                    <span class="label">最高分:</span>
+                    <span id="high-score">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-wrapper">
+            <canvas id="gameCanvas"></canvas>
+            <div id="game-overlay" class="overlay">
+                <div class="overlay-content">
+                    <h2 id="overlay-title">🎮 开始游戏</h2>
+                    <p id="overlay-message">点击下方按钮开始</p>
+                    <button id="start-btn" class="btn primary">开始游戏</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="up-btn" class="control-btn" data-direction="up">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="18,15 12,9 6,15"></polyline>
+                </svg>
+            </button>
+            <div class="horizontal-controls">
+                <button id="left-btn" class="control-btn" data-direction="left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15,18 9,12 15,6"></polyline>
+                    </svg>
+                </button>
+                <button id="right-btn" class="control-btn" data-direction="right">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9,18 15,12 9,6"></polyline>
+                    </svg>
+                </button>
+            </div>
+            <button id="down-btn" class="control-btn" data-direction="down">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+            </button>
+        </div>
+
+        <div class="instructions">
+            <p class="desktop-only">使用方向键或 WASD 控制</p>
+            <p class="mobile-only">点击按钮或滑动屏幕控制</p>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
