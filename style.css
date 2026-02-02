@@ -16,11 +16,14 @@
     --snake-head: #22c55e;
     --snake-body: #4ade80;
     --food-color: #f59e0b;
+    --glow-color: #6366f1;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a2e 50%, var(--dark-bg) 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
     color: var(--text-primary);
     min-height: 100vh;
     display: flex;
@@ -30,18 +33,94 @@ body {
     overflow: hidden;
 }
 
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 .game-container {
     background: var(--card-bg);
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 100px rgba(99, 102, 241, 0.1);
     max-width: 500px;
     width: 100%;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .header {
     text-align: center;
     margin-bottom: 20px;
+}
+
+.game-controls-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.2);
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.icon-btn:hover {
+    background: rgba(99, 102, 241, 0.4);
+    transform: scale(1.1);
+}
+
+.icon-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-btn.muted #sound-wave {
+    display: none;
+}
+
+.difficulty-select {
+    padding: 8px 12px;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 8px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--text-primary);
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.difficulty-select:hover, .difficulty-select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.difficulty-select option {
+    background: var(--card-bg);
 }
 
 .header h1 {
@@ -84,6 +163,39 @@ body {
 .game-wrapper {
     position: relative;
     margin: 20px 0;
+}
+
+.pause-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(99, 102, 241, 0.3);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    z-index: 10;
+}
+
+.pause-btn.visible {
+    display: flex;
+}
+
+.pause-btn:hover {
+    background: rgba(99, 102, 241, 0.5);
+    transform: scale(1.1);
+}
+
+.pause-btn svg {
+    width: 16px;
+    height: 16px;
 }
 
 #gameCanvas {
@@ -180,28 +292,30 @@ body {
     height: 60px;
     border: none;
     border-radius: 15px;
-    background: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
 }
 
 .control-btn:hover {
-    background: var(--secondary-color);
     transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
 }
 
 .control-btn:active {
     transform: scale(0.95);
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4);
 }
 
 .control-btn svg {
     width: 28px;
     height: 28px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .instructions {
@@ -214,7 +328,7 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
     .game-container {
-        padding: 20px;
+        padding: 15px;
         border-radius: 15px;
     }
 
@@ -223,7 +337,7 @@ body {
     }
 
     .score-board {
-        gap: 20px;
+        gap: 15px;
         padding: 10px;
     }
 
@@ -232,7 +346,17 @@ body {
     }
 
     .controls {
-        display: grid;
+        max-width: 180px;
+    }
+
+    .control-btn {
+        width: 55px;
+        height: 55px;
+    }
+
+    .control-btn svg {
+        width: 24px;
+        height: 24px;
     }
 
     .desktop-only {
@@ -241,6 +365,45 @@ body {
 
     .mobile-only {
         display: block;
+    }
+
+    .icon-btn, .difficulty-select {
+        transform: scale(0.9);
+    }
+}
+
+@media (max-width: 480px) {
+    .game-container {
+        padding: 12px;
+    }
+
+    .header h1 {
+        font-size: 1.8em;
+    }
+
+    .controls {
+        max-width: 160px;
+        gap: 8px;
+    }
+
+    .control-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+    }
+
+    .control-btn svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .game-controls-top {
+        flex-wrap: wrap;
+    }
+
+    .difficulty-select {
+        font-size: 0.75em;
+        padding: 6px 10px;
     }
 }
 
@@ -280,4 +443,50 @@ body {
 body {
     touch-action: none;
     overscroll-behavior: none;
+}
+
+/* Score animation */
+.score span:last-child, .high-score span:last-child {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.score span:last-child.score-increase {
+    animation: scorePulse 0.5s ease;
+}
+
+@keyframes scorePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+        color: #fbbf24;
+    }
+}
+
+/* Button press feedback */
+.control-btn.pressed {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    transform: scale(0.95);
+}
+
+/* Game canvas glow effect */
+#gameCanvas {
+    transition: box-shadow 0.3s ease;
+}
+
+#gameCanvas.game-active {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 30px rgba(99, 102, 241, 0.3);
+}
+
+/* Particles animation (for future use) */
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.5);
+    }
 }
